@@ -1,0 +1,7 @@
+# pnpm 11 blocks dependency build scripts by default and hard-fails the install
+# if any are ignored. esbuild (needed by `astro build`) and better-sqlite3
+# (an emdash optional dep) need theirs to run.
+dangerouslyAllowAllBuilds: true
+onlyBuiltDependencies:
+  - better-sqlite3
+  - esbuild

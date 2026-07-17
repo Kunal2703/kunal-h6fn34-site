@@ -1,0 +1,49 @@
+// Overlay this over a `create-emdash --platform node --template blog` scaffold to
+// target RDS Postgres + S3. Keeps the scaffold's react/fonts/audit-log config
+// (dropping any of it crashes the <Font> component at render) and swaps only the
+// database (sqlite -> postgres) and storage (local -> s3), plus a per-pod cache.
+import node from "@astrojs/node";
+import react from "@astrojs/react";
+import auditLog from "@emdash-cms/plugin-audit-log";
+import { defineConfig, fontProviders } from "astro/config";
+import emdash, { s3, memoryCache } from "emdash/astro";
+import { postgres } from "emdash/db";
+
+export default defineConfig({
+  output: "server",
+  adapter: node({ mode: "standalone" }),
+
+  image: {
+    layout: "constrained",
+    responsiveStyles: true,
+  },
+
+  integrations: [
+    react(),
+    emdash({
+      // RDS Postgres. NOTE: connectionString is captured at BUILD time (undefined
+      // in the image build), so pg falls back to PG* env vars at runtime — the
+      // entrypoint derives those from DATABASE_URL. See app/entrypoint.sh.
+      database: postgres({ connectionString: process.env.DATABASE_URL }),
+
+      // S3 media. bucket / region / endpoint come from S3_* env; credentials are
+      // omitted so the AWS SDK default chain uses the pod's IRSA role.
+      storage: s3(),
+
+      // Per-pod in-memory cache. Revisit before scaling replicas high.
+      objectCache: memoryCache(),
+
+      plugins: [auditLog],
+    }),
+  ],
+
+  // Self-hosted webfonts. The blog template's layout renders <Font cssVariable=
+  // "--font-body"> — these entries define those variables. Dropping them crashes
+  // the page render (truncated response -> Cloudflare 502).
+  fonts: [
+    { provider: fontProviders.google(), name: "Inter", cssVariable: "--font-body", weights: [400, 500, 600, 700], fallbacks: ["sans-serif"] },
+    { provider: fontProviders.google(), name: "JetBrains Mono", cssVariable: "--font-mono", weights: [400, 500], fallbacks: ["monospace"] },
+  ],
+
+  devToolbar: { enabled: false },
+});
