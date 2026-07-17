@@ -10,6 +10,12 @@ import emdash, { s3, memoryCache } from "emdash/astro";
 import { postgres } from "emdash/db";
 
 export default defineConfig({
+  // Dev-server host allow-list. The dev-ai preview reaches `astro dev` via the
+  // ALB at <slug>-dev-ai.<suffix>; Astro's native server.allowedHosts defaults
+  // to [] (block all non-localhost), which 403s that host. `true` allows it.
+  // Committed here (not injected at runtime) so codex's reset-to-main can't
+  // revert it. Ignored by `astro build` — production serving is unaffected.
+  server: { allowedHosts: true },
   output: "server",
   adapter: node({ mode: "standalone" }),
 
