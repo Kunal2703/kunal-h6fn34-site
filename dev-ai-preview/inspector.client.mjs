@@ -113,5 +113,21 @@ export const INSPECTOR_CLIENT = `
   // Hide EmDash own preview chrome (floating "EmDash | Edit" toolbar + the
   // logged-in "Admin" nav link) — the dashboard supplies its own Admin tab.
   (function(){var id="urumi-dev-ai-preview-cms-chrome";if(document.getElementById(id))return;var st=document.createElement("style");st.id=id;st.textContent="#emdash-toolbar,.nav-admin{display:none !important;}";(document.head||document.documentElement).appendChild(st);})();
+  // Report navigation to the dashboard so the address-bar path box tracks the
+  // current page (the WP urumi-magic WP_ADMIN_URL contract). EmDash uses
+  // full-page navigation, so this runs on every page load.
+  (function () {
+    function post(m) {
+      if (window.parent && window.parent !== window) {
+        try { window.parent.postMessage(m, parentOrigin); } catch (e) {}
+      }
+    }
+    post({ type: "WP_ADMIN_URL", href: location.href });
+    post({ type: "WP_PAGE_LOADED" });
+    document.addEventListener("click", function (e) {
+      var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+      if (a && a.getAttribute("href") && !a.target) post({ type: "WP_NAVIGATION_START" });
+    }, true);
+  })();
 })();
 `;
