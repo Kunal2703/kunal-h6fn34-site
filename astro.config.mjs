@@ -3,6 +3,7 @@
 // (dropping any of it crashes the <Font> component at render) and swaps only the
 // database (sqlite -> postgres) and storage (local -> s3), plus a per-pod cache.
 import node from "@astrojs/node";
+import devAiInspector from "./dev-ai-preview/index.mjs";
 import react from "@astrojs/react";
 import auditLog from "@emdash-cms/plugin-audit-log";
 import { defineConfig, fontProviders } from "astro/config";
@@ -16,6 +17,10 @@ export default defineConfig({
   // Committed here (not injected at runtime) so codex's reset-to-main can't
   // revert it. Ignored by `astro build` — production serving is unaffected.
   server: { allowedHosts: true },
+  // The EmDash /_emdash/admin is a vite-dev SPA; its /@fs//@vite//@id/ module
+  // endpoints 403 through the external ALB without these. Astro server.* does
+  // NOT cover them — must be under vite.server. Committed so reset-to-main keeps it.
+  vite: { server: { cors: true, fs: { strict: false, allow: ["/var/www/repo"] } } },
   output: "server",
   adapter: node({ mode: "standalone" }),
 
@@ -26,6 +31,7 @@ export default defineConfig({
 
   integrations: [
     react(),
+    devAiInspector({ dashboardOrigin: process.env.PREVIEW_DASHBOARD_ORIGIN }),
     emdash({
       // RDS Postgres. NOTE: connectionString is captured at BUILD time (undefined
       // in the image build), so pg falls back to PG* env vars at runtime — the
