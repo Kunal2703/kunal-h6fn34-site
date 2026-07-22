@@ -20,7 +20,19 @@ export default defineConfig({
   // The EmDash /_emdash/admin is a vite-dev SPA; its /@fs//@vite//@id/ module
   // endpoints 403 through the external ALB without these. Astro server.* does
   // NOT cover them — must be under vite.server. Committed so reset-to-main keeps it.
-  vite: { server: { cors: true, fs: { strict: false, allow: ["/var/www/repo"] } } },
+  // Dev-server config for the dashboard iframe preview (dev-server only; ignored
+  // by `astro build`). cors + fs.strict:false let the admin dev-SPA modules
+  // serve through the external ALB. hmr over wss:443 makes the vite HMR client
+  // connect back through the ALB (which forwards 443 -> the astro dev port), so
+  // the preview hot-reloads cleanly on codex edits instead of the browser
+  // re-requesting a half-rewritten page (the "No cached compile metadata" error).
+  vite: {
+    server: {
+      cors: true,
+      fs: { strict: false, allow: ["/var/www/repo"] },
+      hmr: { clientPort: 443, protocol: "wss" },
+    },
+  },
   output: "server",
   adapter: node({ mode: "standalone" }),
 
