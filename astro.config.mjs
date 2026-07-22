@@ -16,6 +16,13 @@ export default defineConfig({
   // Committed here (not injected at runtime) so codex's reset-to-main can't
   // revert it. Ignored by `astro build` — production serving is unaffected.
   server: { allowedHosts: true },
+  // The EmDash /_emdash/admin is a vite-dev SPA; its /@fs//@vite//@id/ module
+  // endpoints 403 through the external ALB without these (fs guard on the admin
+  // bundle outside the demo root + vite dev cross-origin protection). Astro's
+  // server.* does NOT cover them — must be under vite.server. Committed (not
+  // runtime-injected) so codex's reset-to-main can't revert it; ignored by
+  // `astro build`, so production serving is unaffected.
+  vite: { server: { cors: true, fs: { strict: false, allow: ["/var/www/repo"] } } },
   output: "server",
   adapter: node({ mode: "standalone" }),
 
