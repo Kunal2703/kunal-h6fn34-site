@@ -1,0 +1,77 @@
+---
+import Base from "../../layouts/Base.astro";
+import ProductCard from "../../components/ProductCard.astro";
+---
+
+<Base title="Products" description="Featured items from the shop">
+	<section class="products-section">
+		<div class="products-header">
+			<h1 class="page-title">Featured Product</h1>
+			<p class="page-description">
+				Hand-picked items with thoughtful details and friendly pricing.
+			</p>
+		</div>
+		<div class="products-grid">
+			<ProductCard
+				image={{
+					$media: {
+						url: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1200&q=80",
+						alt: "Pair of modern wireless headphones on a desk",
+						filename: "wireless-headphones.jpg",
+					},
+				}}
+				title="Focus Wireless Headphones"
+				description="Active noise cancelling with 30-hour battery life and plush memory foam earcups."
+				href="/products/focus-wireless-headphones"
+				price={299}
+				salePrice={239}
+			/>
+		</div>
+	</section>
+</Base>
+
+<style>
+	.products-section {
+		max-width: var(--wide-width);
+		margin: 0 auto;
+		padding: var(--spacing-16) var(--spacing-6);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-8);
+	}
+
+	.products-header {
+		max-width: var(--content-width);
+	}
+
+	.page-title {
+		margin-bottom: var(--spacing-2);
+		font-size: var(--font-size-3xl);
+		font-weight: var(--font-weight-display);
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.page-description {
+		margin: 0;
+		color: var(--color-text-secondary);
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
+	}
+
+	.products-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		gap: var(--spacing-6);
+	}
+
+	@media (max-width: 720px) {
+		.products-section {
+			padding-top: var(--spacing-12);
+			padding-bottom: var(--spacing-12);
+		}
+
+		.page-title {
+			font-size: var(--font-size-2xl);
+		}
+	}
+</style>

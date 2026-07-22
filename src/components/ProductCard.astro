@@ -1,0 +1,160 @@
+---
+import type { MediaValue } from "emdash";
+import { Image } from "emdash/ui";
+
+interface Props {
+	title: string;
+	description?: string;
+	price: number;
+	salePrice?: number | null;
+	href: string;
+	image?: MediaValue | string;
+}
+
+const { title, description, price, salePrice, href, image } = Astro.props as Props;
+
+const isOnSale = typeof salePrice === "number" && salePrice < price;
+
+function formatCurrency(amount: number) {
+	return amount.toLocaleString("en-US", {
+		style: "currency",
+		currency: "USD",
+	});
+}
+
+const formattedPrice = formatCurrency(price);
+const formattedSalePrice = isOnSale && typeof salePrice === "number" ? formatCurrency(salePrice) : null;
+---
+
+<article class="product-card">
+	<a href={href} class="product-link">
+		<div class="product-media">
+			{image ? (
+				<div class="media-image">
+					<Image image={image} />
+				</div>
+			) : (
+				<div class="media-placeholder" aria-hidden="true" />
+			)}
+			{isOnSale && <span class="sale-badge">Sale</span>}
+		</div>
+		<div class="product-body">
+			<h2 class="product-title">{title}</h2>
+			{description && <p class="product-description">{description}</p>}
+			<div class="product-pricing">
+				{isOnSale && formattedSalePrice ? (
+					<>
+						<span class="price-current">{formattedSalePrice}</span>
+						<span class="price-original">{formattedPrice}</span>
+					</>
+				) : (
+					<span class="price-current">{formattedPrice}</span>
+				)}
+			</div>
+		</div>
+	</a>
+</article>
+
+<style>
+	.product-card {
+		display: flex;
+		flex-direction: column;
+		background: var(--color-surface);
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+		box-shadow: var(--shadow-sm);
+		transition: box-shadow var(--transition-base);
+	}
+
+	.product-card:hover {
+		box-shadow: var(--shadow-lg);
+	}
+
+	.product-link {
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		color: inherit;
+		height: 100%;
+	}
+
+	.product-media {
+		position: relative;
+		aspect-ratio: 4 / 5;
+		background: var(--color-bg-subtle);
+	}
+
+	.media-image,
+	.media-placeholder {
+		width: 100%;
+		height: 100%;
+	}
+
+	.media-image :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.media-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--color-muted);
+		font-size: var(--font-size-sm);
+	}
+
+	.sale-badge {
+		position: absolute;
+		top: var(--spacing-3);
+		left: var(--spacing-3);
+		padding: 0.35rem 0.65rem;
+		background: var(--color-brand);
+		color: var(--color-on-brand);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		border-radius: 999px;
+		box-shadow: var(--shadow-sm);
+	}
+
+	.product-body {
+		padding: var(--spacing-4);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-3);
+	}
+
+	.product-title {
+		margin: 0;
+		font-size: var(--font-size-lg);
+		font-weight: var(--font-weight-heading);
+		letter-spacing: var(--tracking-snug);
+	}
+
+	.product-description {
+		margin: 0;
+		color: var(--color-text-secondary);
+		font-size: var(--font-size-sm);
+		line-height: var(--leading-relaxed);
+	}
+
+	.product-pricing {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2);
+	}
+
+	.price-current {
+		font-size: var(--font-size-lg);
+		font-weight: var(--font-weight-heading);
+		color: var(--color-brand);
+	}
+
+	.price-original {
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+		text-decoration: line-through;
+	}
+</style>
