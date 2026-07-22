@@ -110,5 +110,8 @@ export const INSPECTOR_CLIENT = `
       }
     }
   });
+  // Hide EmDash own preview chrome (floating "EmDash | Edit" toolbar + the
+  // logged-in "Admin" nav link) — the dashboard supplies its own Admin tab.
+  (function(){var id="urumi-dev-ai-preview-cms-chrome";if(document.getElementById(id))return;var st=document.createElement("style");st.id=id;st.textContent="#emdash-toolbar,.nav-admin{display:none !important;}";(document.head||document.documentElement).appendChild(st);})();
 })();
 `;

@@ -17,7 +17,6 @@
 // vite dev config are owned elsewhere (src/middleware.mjs + astro.config vite).
 // Committed so codex's reset-to-main can't revert it.
 import { INSPECTOR_CLIENT } from "./inspector.client.mjs";
-import { CMS_CHROME_CLIENT } from "./cms-chrome.client.mjs";
 
 export default function devAiInspector({ dashboardOrigin } = {}) {
   return {
@@ -26,11 +25,7 @@ export default function devAiInspector({ dashboardOrigin } = {}) {
       "astro:config:setup": ({ injectScript }) => {
         // The client re-captures the real parent origin from the incoming
         // URUMI_INSPECT_MODE message, so this substitution is a safe fallback.
-        injectScript(
-          "page",
-          INSPECTOR_CLIENT.replace("__DASHBOARD_ORIGIN__", dashboardOrigin || "*"),
-        );
-        injectScript("page", CMS_CHROME_CLIENT);
+        injectScript("page", INSPECTOR_CLIENT.replace("__DASHBOARD_ORIGIN__", dashboardOrigin || "*"));
       },
     },
   };
