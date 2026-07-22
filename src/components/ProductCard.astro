@@ -1,0 +1,290 @@
+---
+import type { MediaValue } from "emdash";
+import { Image } from "emdash/ui";
+
+interface Props {
+	title: string;
+	description?: string;
+	price: string;
+	originalPrice?: string;
+	image?: MediaValue | string;
+	href?: string;
+	ctaLabel?: string;
+	badge?: string;
+	rating?: number;
+	reviewCount?: number;
+	features?: string[];
+}
+
+const {
+	title,
+	description,
+	price,
+	originalPrice,
+	image,
+	href,
+	ctaLabel = "View details",
+	badge,
+	rating,
+	reviewCount,
+	features = [],
+} = Astro.props as Props;
+
+const clampedRating = typeof rating === "number"
+	? Math.min(Math.max(rating, 0), 5)
+	: null;
+
+const ratingText = clampedRating !== null ? clampedRating.toFixed(1) : null;
+---
+
+<article class="product-card">
+	{badge && <span class="product-badge">{badge}</span>}
+	<div class="product-media">
+		{
+			image ? (
+				<div class="product-image">
+					<Image image={image} />
+				</div>
+			) : (
+				<div class="product-placeholder" aria-hidden="true" />
+			)
+		}
+	</div>
+	<div class="product-content">
+		<h2 class="product-title">{title}</h2>
+		{ratingText && (
+			<div class="product-rating">
+				<span class="product-rating-icon" aria-hidden="true">★</span>
+				<span class="product-rating-value">{ratingText}</span>
+				<span class="sr-only">out of five stars</span>
+				{typeof reviewCount === "number" && (
+					<span class="product-reviews">({reviewCount.toLocaleString()} reviews)</span>
+				)}
+			</div>
+		)}
+		{description && <p class="product-description">{description}</p>}
+		{features.length > 0 && (
+			<ul class="product-features">
+				{features.map((feature) => (
+					<li>{feature}</li>
+				))}
+			</ul>
+		)}
+		<div class="product-footer">
+			<div class="product-pricing">
+				<span class="product-price">{price}</span>
+				{originalPrice && (
+					<span class="product-original">{originalPrice}</span>
+				)}
+			</div>
+			{href && (
+				<a href={href} class="product-cta">{ctaLabel}</a>
+			)}
+		</div>
+	</div>
+</article>
+
+<style>
+	.product-card {
+		position: relative;
+		display: grid;
+		gap: var(--spacing-6);
+		grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+		padding: var(--spacing-6);
+		border-radius: var(--radius-xl);
+		border: 1px solid var(--color-border-subtle);
+		background: var(--color-surface);
+		box-shadow: 0 12px 30px -20px color-mix(in srgb, var(--color-text) 18%, transparent);
+	}
+
+	.product-badge {
+		position: absolute;
+		top: var(--spacing-4);
+		left: var(--spacing-4);
+		padding: 0.35rem 0.65rem;
+		border-radius: var(--radius-pill);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		background: var(--color-brand);
+		color: var(--color-on-brand);
+		box-shadow: 0 10px 25px -15px color-mix(in srgb, var(--color-brand) 60%, transparent);
+	}
+
+	.product-media {
+		position: relative;
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+	}
+
+	.product-image {
+		height: 100%;
+	}
+
+	.product-image :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.product-placeholder {
+		width: 100%;
+		padding-top: 70%;
+		background: linear-gradient(135deg, var(--color-bg-subtle), var(--color-surface));
+	}
+
+	.product-content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+		justify-content: space-between;
+	}
+
+	.product-title {
+		font-size: clamp(var(--font-size-xl), 3vw, var(--font-size-3xl));
+		font-weight: var(--font-weight-display);
+		letter-spacing: var(--tracking-tight);
+		line-height: var(--leading-tight);
+		margin: 0;
+	}
+
+	.product-rating {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-2);
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+	}
+
+	.product-rating-icon {
+		font-size: 1.1em;
+		color: var(--color-brand);
+	}
+
+	.product-rating-value {
+		font-weight: 600;
+		color: var(--color-text);
+	}
+
+	.product-reviews {
+		color: var(--color-text-secondary);
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	.product-description {
+		font-size: var(--font-size-base);
+		line-height: var(--leading-relaxed);
+		color: var(--color-text-secondary);
+	}
+
+	.product-features {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 0.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	}
+
+	.product-features li {
+		position: relative;
+		padding-left: var(--spacing-4);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+	}
+
+	.product-features li::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0.45rem;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 999px;
+		background: var(--color-brand);
+	}
+
+	.product-footer {
+		display: flex;
+		flex-wrap: wrap;
+		row-gap: var(--spacing-3);
+		column-gap: var(--spacing-6);
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.product-pricing {
+		display: flex;
+		align-items: baseline;
+		gap: var(--spacing-3);
+	}
+
+	.product-price {
+		font-size: clamp(var(--font-size-2xl), 3vw, var(--font-size-3xl));
+		font-weight: var(--font-weight-display);
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.product-original {
+		font-size: var(--font-size-base);
+		color: var(--color-muted);
+		text-decoration: line-through;
+	}
+
+	.product-cta {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.75rem 1.5rem;
+		border-radius: var(--radius-pill);
+		background: var(--color-brand);
+		color: var(--color-on-brand);
+		font-weight: 600;
+		text-decoration: none;
+		transition: background var(--transition-fast), transform var(--transition-fast);
+		box-shadow: 0 12px 20px -15px color-mix(in srgb, var(--color-brand) 70%, transparent);
+	}
+
+	.product-cta:hover,
+	.product-cta:focus-visible {
+		background: var(--color-brand-hover);
+		transform: translateY(-1px);
+	}
+
+	@media (max-width: 900px) {
+		.product-card {
+			grid-template-columns: 1fr;
+		}
+
+		.product-media {
+			min-height: 220px;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.product-card {
+			padding: var(--spacing-5);
+			gap: var(--spacing-5);
+		}
+
+		.product-title {
+			font-size: var(--font-size-2xl);
+		}
+
+		.product-price {
+			font-size: var(--font-size-2xl);
+		}
+	}
+</style>

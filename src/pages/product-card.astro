@@ -1,0 +1,86 @@
+---
+import Base from "../layouts/Base.astro";
+import ProductCard from "../components/ProductCard.astro";
+
+const product = {
+	title: "Focusmate Desk Lamp",
+	description:
+		"A glare-free desk lamp engineered for deep work, with ambient sensors that shift colour temperature as the day moves and a brass dimmer dial you actually want to touch.",
+	price: "$189",
+	originalPrice: "$219",
+	badge: "New Arrival",
+	rating: 4.7,
+	reviewCount: 126,
+	features: [
+		"Adaptive daylight sensor with auto dimming",
+		"Warm-to-cool spectrum from 2700K to 5000K",
+		"Solid aluminium arm with 270° rotation",
+		"USB-C passthrough to keep your desk tidy",
+	],
+	href: "/products/focusmate-desk-lamp",
+	image: {
+		src: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80",
+		alt: "A modern desk lamp illuminating a workspace",
+	},
+};
+---
+
+<Base title="Product Card" description="Product card component demo">
+	<section class="page">
+		<header class="page-header">
+			<h1>Showcase a hero product</h1>
+			<p>
+				A flexible product card for feature drops and editorial merch moments.
+				Keep the spotlight on one thing, with room for the details that persuade.
+			</p>
+		</header>
+		<ProductCard {...product} />
+	</section>
+</Base>
+
+<style>
+	.page {
+		max-width: var(--wide-width);
+		margin: 0 auto;
+		padding: var(--spacing-16) var(--spacing-6) var(--spacing-20);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-12);
+	}
+
+	.page-header {
+		display: grid;
+		gap: var(--spacing-4);
+		max-width: min(680px, 100%);
+	}
+
+	.page-header h1 {
+		font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-4xl));
+		font-weight: var(--font-weight-display);
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-tight);
+		margin: 0;
+	}
+
+	.page-header p {
+		font-size: var(--font-size-lg);
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+		margin: 0;
+	}
+
+	@media (max-width: 640px) {
+		.page {
+			padding: var(--spacing-12) var(--spacing-4) var(--spacing-16);
+			gap: var(--spacing-10);
+		}
+
+		.page-header h1 {
+			font-size: var(--font-size-3xl);
+		}
+
+		.page-header p {
+			font-size: var(--font-size-base);
+		}
+	}
+</style>
