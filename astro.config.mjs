@@ -3,12 +3,25 @@
 // (dropping any of it crashes the <Font> component at render) and swaps only the
 // database (sqlite -> postgres) and storage (local -> s3), plus a per-pod cache.
 import node from "@astrojs/node";
-import devAiInspector from "./dev-ai-preview/index.mjs";
 import react from "@astrojs/react";
 import auditLog from "@emdash-cms/plugin-audit-log";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash, { s3, memoryCache } from "emdash/astro";
 import { postgres } from "emdash/db";
+
+// The point-and-edit inspector (Edit / point-and-target) is a dev-ai PREVIEW-only
+// integration. Its module (./dev-ai-preview/index.mjs) lives only inside the
+// dev-ai preview pod's working copy — it is never committed. So QA/prod builds
+// (which clone `main`) must NOT hard-depend on it, or Astro fails to load its
+// config ("Failed to load url ./dev-ai-preview/index.mjs"). Load it optionally:
+// use the real inspector when the file is present (preview), otherwise fall back
+// to a no-op integration so `astro build` succeeds everywhere.
+let devAiInspector = () => ({ name: "dev-ai-inspector-noop", hooks: {} });
+try {
+  ({ default: devAiInspector } = await import("./dev-ai-preview/index.mjs"));
+} catch {
+  // Not present in this environment (QA/prod build) — inspector stays a no-op.
+}
 
 export default defineConfig({
   // Dev-server host allow-list. The dev-ai preview reaches `astro dev` via the

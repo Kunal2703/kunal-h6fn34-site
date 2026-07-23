@@ -4,3 +4,9 @@ dist/
 *.log
 .env
 .env.*
+
+# dev-ai preview-only integration, injected into the preview pod at runtime.
+# Must never be committed — a committed copy would ship the dev inspector to
+# QA/prod and (paired with a hard import) break `astro build`. astro.config.mjs
+# loads it optionally, so it is safe for this to be absent in QA/prod.
+dev-ai-preview/
