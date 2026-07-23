@@ -1,0 +1,909 @@
+---
+import Base from "../../layouts/Base.astro";
+import { Image } from "emdash/ui";
+
+const product = {
+	name: "Focusmate Desk Lamp",
+	tagline: "Precision lighting engineered for deep work rituals",
+	description:
+		"Shape light to match your energy. Focusmate senses the room, warms up the tone for late-night sprints, and keeps glare off the page with a sculpted low-profile head.",
+	price: "$200",
+	originalPrice: "$219",
+	availability: "In stock — ships in 2 business days",
+	badge: "New Arrival",
+	rating: 4.7,
+	reviewCount: 126,
+	heroImage: {
+		src: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=80",
+		alt: "A modern desk lamp illuminating a workspace with notebooks and a plant",
+	},
+};
+
+const highlights = [
+	{
+		title: "Adaptive daylight engine",
+		description:
+			"Ambient sensors map the room every 40 seconds, tuning colour temperature between 2700K and 5000K so your eyes never chase the screen.",
+	},
+	{
+		title: "Precision-milled armature",
+		description:
+			"A solid aluminium arm glides through 270° of rotation, holding its angle without sag thanks to a hidden counterbalance assembly.",
+	},
+	{
+		title: "Desk-friendly power",
+		description:
+			"Integrated USB-C passthrough keeps chargers off the floor while the woven cable routes cleanly down the spine.",
+	},
+];
+
+const metrics = [
+	{ label: "Average rating", value: "4.7 / 5" },
+	{ label: "Return window", value: "60-day guarantee" },
+	{ label: "Warranty", value: "5-year coverage" },
+];
+
+const featureSections = [
+	{
+		title: "Tuned to your circadian rhythm",
+		copy:
+			"Focusmate tracks sunlight levels and gently shifts the spectrum to match. Morning sessions start crisp and cool; late nights transition to a warm amber that keeps your brain from thinking it is midday.",
+		bullets: [
+			"Dual-channel LED array for warm and cool zones",
+			"Colour shift happens gradually to avoid sudden jumps",
+			"Manual override with tactile brass dial",
+		],
+	},
+	{
+		title: "Quietly confident hardware",
+		copy:
+			"A low-profile head uses micro-baffles to absorb stray light, so the task plane stays lit while the rest of the room settles. The base is weighted with recycled steel, anchored by a cork underlay that refuses to scrape your desk.",
+		bullets: [
+			"270° rotation with 120° vertical tilt",
+			"Silicone inlays remove vibration from the arm",
+			"Cable channel keeps the woven cord invisible",
+		],
+	},
+	{
+		title: "Designed for hybrid schedules",
+		copy:
+			"Take Focusmate between the studio and the office. The quick-release joint collapses in three movements, and everything fits inside the included felt travel sleeve.",
+		bullets: [
+			"Felt travel sleeve with magnetic closure",
+			"Auto-voltage support from 100–240V",
+			"Weighs just 2.6 lbs for easy carry",
+		],
+	},
+];
+
+const kitItems = [
+	"Focusmate Desk Lamp body",
+	"Detachable weighted base",
+	"Woven USB-C to USB-C cable (2 m)",
+	"45 W gallium nitride power adapter",
+	"Felt travel sleeve",
+];
+
+const techSpecs = [
+	{ label: "Dimensions", value: "18.5 in H × 9 in W arm × 6 in base" },
+	{ label: "Colour temperature", value: "2700K – 5000K adaptive" },
+	{ label: "Brightness", value: "Up to 1200 lumens" },
+	{ label: "Materials", value: "Anodised aluminium, brass dial, recycled steel base" },
+	{ label: "Power", value: "45 W USB-C PD (included adapter)" },
+	{ label: "Cable", value: "Woven USB-C, 2 m, replaceable" },
+	{ label: "Connectivity", value: "USB-C passthrough (2 × 18 W)" },
+	{ label: "Certifications", value: "Energy Star, UL Listed" },
+];
+
+const sustainabilityNotes = [
+	"Housing contains 40% post-industrial recycled aluminium.",
+	"LED array rated for 50,000 hours and fully user-replaceable.",
+	"Ships in plastic-free packaging printed with soy inks.",
+];
+
+const faqs = [
+	{
+		question: "Will the light flicker on camera?",
+		answer:
+			"No. Focusmate runs a constant-current driver at 30 kHz so it stays flicker-free on video calls and filming setups.",
+	},
+	{
+		question: "Can I disable the ambient sensor?",
+		answer:
+			"Yes. Toggle adaptive mode off with a press of the brass dial, then use the dial to set intensity manually.",
+	},
+	{
+		question: "Does it remember my settings?",
+		answer:
+			"Focusmate stores your last intensity and spectrum preference, so every power-on resumes your preferred scene.",
+	},
+	{
+		question: "What desks does the base fit?",
+		answer:
+			"The base footprint is 6 in in diameter with a cork underside that grips glass, wood, or laminate without leaving marks.",
+	},
+];
+
+const gallery = [
+	{
+		src: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1200&q=80",
+		alt: "Desk lamp beside a laptop and notebook on a walnut desk",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1616628182501-9b3b97234680?auto=format&fit=crop&w=1200&q=80",
+		alt: "Detail of a lamp's brass dimmer dial being adjusted",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
+		alt: "Lamp illuminating sketches spread across a workspace",
+	},
+];
+
+const testimonials = [
+	{
+		quote:
+			"The gradual shift in colour keeps my evening research sessions sharp without wrecking my sleep. It feels more like a studio instrument than a desk accessory.",
+		author: "Rae Chen, UX Researcher",
+	},
+	{
+		quote:
+			"Every hinge has a satisfying resistance. I can swing the beam across a drafting table and it never blinds the client across from me.",
+		author: "Malik Jones, Architect",
+	},
+];
+---
+
+<Base title={`${product.name} — Focusmate Objects`} description={product.tagline}>
+	<article class="product-page">
+		<section class="hero" id="reserve">
+			<div class="hero-content">
+				<span class="badge">{product.badge}</span>
+				<h1>{product.name}</h1>
+				<p class="tagline">{product.tagline}</p>
+				<p class="description">{product.description}</p>
+				<div class="pricing">
+					<div class="price">
+						<span class="current">{product.price}</span>
+						<span class="original">{product.originalPrice}</span>
+					</div>
+					<div class="rating">
+						<span class="rating-score">{product.rating.toFixed(1)}</span>
+						<span class="rating-meta">({product.reviewCount} reviews)</span>
+					</div>
+				</div>
+				<div class="cta-row">
+					<a class="btn-primary" href="mailto:orders@focusmate.studio">Pre-order now</a>
+					<a class="btn-ghost" href="#specs">View full specs</a>
+				</div>
+				<p class="availability">{product.availability}</p>
+			</div>
+			<div class="hero-image">
+				<Image image={product.heroImage} loading="eager" />
+			</div>
+		</section>
+
+		<section class="highlights">
+			<h2>Why creators choose Focusmate</h2>
+			<div class="highlight-grid">
+				{highlights.map((item) => (
+					<div class="highlight-card">
+						<h3>{item.title}</h3>
+						<p>{item.description}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<section class="metrics">
+			{metrics.map((metric) => (
+				<div class="metric">
+					<span class="metric-value">{metric.value}</span>
+					<span class="metric-label">{metric.label}</span>
+				</div>
+			))}
+		</section>
+
+		<section class="gallery">
+			{gallery.map((image) => (
+				<div class="gallery-item">
+					<Image image={image} loading="lazy" />
+				</div>
+			))}
+		</section>
+
+		<section class="features">
+			{featureSections.map((feature, index) => (
+				<article class={`feature ${index % 2 === 1 ? "feature-alt" : ""}`}>
+					<div class="feature-copy">
+						<h2>{feature.title}</h2>
+						<p>{feature.copy}</p>
+					</div>
+					<ul class="feature-bullets">
+						{feature.bullets.map((bullet) => (
+							<li>{bullet}</li>
+						))}
+					</ul>
+				</article>
+			))}
+		</section>
+
+		<section class="kit">
+			<div class="kit-copy">
+				<h2>What's in the carry kit</h2>
+				<p>
+					Every Focusmate ships ready for travel. Unfold, plug in, and dial the
+					light where you want it — no assembly tools required.
+				</p>
+			</div>
+			<ul class="kit-list">
+				{kitItems.map((item) => (
+					<li>{item}</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="specs" id="specs">
+			<h2>Technical specifications</h2>
+			<dl class="spec-grid">
+				{techSpecs.map((spec) => (
+					<div class="spec">
+						<dt>{spec.label}</dt>
+						<dd>{spec.value}</dd>
+					</div>
+				))}
+			</dl>
+		</section>
+
+		<section class="sustainability">
+			<h2>Built for the long haul</h2>
+			<ul>
+				{sustainabilityNotes.map((note) => (
+					<li>{note}</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="testimonials">
+			<h2>Field notes</h2>
+			<div class="testimonial-grid">
+				{testimonials.map((testimonial) => (
+					<blockquote>
+						<p>“{testimonial.quote}”</p>
+						<cite>{testimonial.author}</cite>
+					</blockquote>
+				))}
+			</div>
+		</section>
+
+		<section class="faq">
+			<h2>Questions, answered</h2>
+			<div class="faq-list">
+				{faqs.map((faq) => (
+					<details>
+						<summary>{faq.question}</summary>
+						<p>{faq.answer}</p>
+					</details>
+				))}
+			</div>
+		</section>
+
+		<section class="cta">
+			<div class="cta-card">
+				<h2>Ready to reshape your workspace?</h2>
+				<p>
+					Reserve the Focusmate Desk Lamp today and lock in complimentary
+					studio shipping plus a five-year warranty upgrade.
+				</p>
+				<div class="cta-actions">
+					<a class="btn-primary" href="mailto:orders@focusmate.studio">Add to cart</a>
+					<a class="btn-ghost" href="mailto:studio@focusmate.studio">Talk to a specialist</a>
+				</div>
+			</div>
+		</section>
+	</article>
+</Base>
+
+<style>
+	:global(main) {
+		background: var(--color-bg);
+	}
+
+	.product-page {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-20);
+		max-width: var(--wide-width);
+		margin: 0 auto;
+		padding: var(--spacing-20) var(--spacing-6) var(--spacing-24);
+	}
+
+	.hero {
+		display: grid;
+		gap: var(--spacing-12);
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		padding: var(--spacing-12);
+		border-radius: var(--radius-lg);
+		background:
+			linear-gradient(
+				135deg,
+				color-mix(in srgb, var(--color-brand) 14%, transparent),
+				var(--color-surface)
+			);
+		box-shadow: var(--shadow-lg);
+	}
+
+	.hero-content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+		justify-content: center;
+	}
+
+	.badge {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-2);
+		padding: var(--spacing-1) var(--spacing-3);
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		background: color-mix(in srgb, var(--color-brand) 15%, transparent);
+		color: var(--color-brand);
+		border-radius: 999px;
+		width: fit-content;
+	}
+
+	.hero h1 {
+		font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl));
+		font-weight: var(--font-weight-display);
+		letter-spacing: var(--tracking-tight);
+		margin: 0;
+	}
+
+	.tagline {
+		font-size: var(--font-size-xl);
+		color: var(--color-text-secondary);
+		margin: 0;
+	}
+
+	.description {
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
+		margin: 0;
+	}
+
+	.pricing {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--spacing-4);
+		margin-top: var(--spacing-3);
+	}
+
+	.price {
+		display: flex;
+		align-items: baseline;
+		gap: var(--spacing-2);
+	}
+
+	.current {
+		font-size: var(--font-size-3xl);
+		font-weight: var(--font-weight-display);
+	}
+
+	.original {
+		font-size: var(--font-size-lg);
+		color: var(--color-muted);
+		text-decoration: line-through;
+	}
+
+	.rating {
+		display: flex;
+		align-items: baseline;
+		gap: var(--spacing-1);
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+	}
+
+	.rating-score {
+		font-weight: 600;
+		color: var(--color-brand);
+	}
+
+	.cta-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-3);
+		margin-top: var(--spacing-4);
+	}
+
+	.btn-primary,
+	.btn-ghost {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--spacing-2);
+		padding: var(--spacing-3) var(--spacing-6);
+		border-radius: var(--radius);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+		text-decoration: none;
+		transition: background var(--transition-fast), color var(--transition-fast), border var(--transition-fast);
+	}
+
+	.btn-primary {
+		background: var(--color-brand);
+		color: var(--color-on-brand);
+		border: 1px solid transparent;
+	}
+
+	.btn-primary:hover {
+		background: var(--color-brand-hover);
+	}
+
+	.btn-ghost {
+		background: transparent;
+		color: var(--color-brand);
+		border: 1px solid var(--color-border);
+	}
+
+	.btn-ghost:hover {
+		border-color: var(--color-brand);
+		color: var(--color-brand-hover);
+	}
+
+	.availability {
+		margin: 0;
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+	}
+
+	.hero-image {
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+		background: var(--color-surface);
+	}
+
+	.hero-image :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.highlights {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-6);
+	}
+
+	.highlights h2 {
+		font-size: var(--font-size-2xl);
+		font-weight: var(--font-weight-heading);
+		letter-spacing: var(--tracking-snug);
+		margin: 0;
+	}
+
+	.highlight-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		gap: var(--spacing-6);
+	}
+
+	.highlight-card {
+		padding: var(--spacing-6);
+		background: var(--color-surface);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-sm);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-3);
+	}
+
+	.highlight-card h3 {
+		margin: 0;
+		font-size: var(--font-size-xl);
+		letter-spacing: var(--tracking-snug);
+	}
+
+	.highlight-card p {
+		margin: 0;
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+	}
+
+	.metrics {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: var(--spacing-6);
+		padding: var(--spacing-6);
+		border-radius: var(--radius-lg);
+		background: var(--color-surface);
+	}
+
+	.metric {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2);
+		text-align: left;
+	}
+
+	.metric-value {
+		font-size: var(--font-size-2xl);
+		font-weight: var(--font-weight-heading);
+	}
+
+	.metric-label {
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+	}
+
+	.gallery {
+		display: grid;
+		gap: var(--spacing-6);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.gallery-item {
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+		background: var(--color-surface);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.gallery-item :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.features {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-12);
+	}
+
+	.feature {
+		display: grid;
+		gap: var(--spacing-10);
+		grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+		align-items: start;
+		padding: var(--spacing-10);
+		border-radius: var(--radius-lg);
+		background: var(--color-surface);
+	}
+
+	.feature-alt {
+		background: linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--color-brand) 12%, transparent),
+			var(--color-surface)
+		);
+	}
+
+	.feature-copy h2 {
+		margin: 0 0 var(--spacing-3);
+		font-size: var(--font-size-2xl);
+		letter-spacing: var(--tracking-snug);
+	}
+
+	.feature-copy p {
+		margin: 0;
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+	}
+
+	.feature-bullets {
+		margin: 0;
+		padding-left: var(--spacing-6);
+		display: grid;
+		gap: var(--spacing-2);
+		color: var(--color-text-secondary);
+		font-size: var(--font-size-base);
+	}
+
+	.kit {
+		display: grid;
+		gap: var(--spacing-8);
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		align-items: start;
+		padding: var(--spacing-10);
+		border-radius: var(--radius-lg);
+		background: var(--color-surface);
+	}
+
+	.kit-copy h2 {
+		margin: 0 0 var(--spacing-3);
+		font-size: var(--font-size-2xl);
+	}
+
+	.kit-copy p {
+		margin: 0;
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+	}
+
+	.kit-list {
+		margin: 0;
+		padding-left: var(--spacing-6);
+		display: grid;
+		gap: var(--spacing-2);
+		font-size: var(--font-size-base);
+		color: var(--color-text-secondary);
+	}
+
+	.specs {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-6);
+	}
+
+	.specs h2 {
+		margin: 0;
+		font-size: var(--font-size-2xl);
+	}
+
+	.spec-grid {
+		display: grid;
+		gap: var(--spacing-6);
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	}
+
+	.spec {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-1);
+		background: var(--color-surface);
+		padding: var(--spacing-5);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.spec dt {
+		font-size: var(--font-size-sm);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-muted);
+		margin: 0;
+	}
+
+	.spec dd {
+		margin: 0;
+		font-size: var(--font-size-base);
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+	}
+
+	.sustainability {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+		padding: var(--spacing-10);
+		border-radius: var(--radius-lg);
+		background: linear-gradient(
+			135deg,
+			var(--color-surface),
+			color-mix(in srgb, var(--color-brand) 10%, transparent)
+		);
+	}
+
+	.sustainability h2 {
+		margin: 0;
+		font-size: var(--font-size-2xl);
+	}
+
+	.sustainability ul {
+		margin: 0;
+		padding-left: var(--spacing-6);
+		color: var(--color-text-secondary);
+		line-height: var(--leading-relaxed);
+	}
+
+	.testimonials {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-6);
+	}
+
+	.testimonials h2 {
+		margin: 0;
+		font-size: var(--font-size-2xl);
+	}
+
+	.testimonial-grid {
+		display: grid;
+		gap: var(--spacing-6);
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	}
+
+	blockquote {
+		margin: 0;
+		padding: var(--spacing-6);
+		background: var(--color-surface);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-sm);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-3);
+	}
+
+	blockquote p {
+		margin: 0;
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
+	}
+
+	blockquote cite {
+		font-style: normal;
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+	}
+
+	.faq {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-6);
+	}
+
+	.faq h2 {
+		margin: 0;
+		font-size: var(--font-size-2xl);
+	}
+
+	.faq-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-3);
+	}
+
+	details {
+		background: var(--color-surface);
+		border-radius: var(--radius);
+		padding: var(--spacing-4) var(--spacing-5);
+		box-shadow: var(--shadow-sm);
+	}
+
+	details[open] {
+		box-shadow: var(--shadow-lg);
+	}
+
+	summary {
+		font-weight: 600;
+		cursor: pointer;
+		outline: none;
+		list-style: none;
+	}
+
+	summary::-webkit-details-marker {
+		display: none;
+	}
+
+	details p {
+		margin: var(--spacing-3) 0 0;
+		color: var(--color-text-secondary);
+	}
+
+	.cta {
+		display: flex;
+		justify-content: center;
+	}
+
+	.cta-card {
+		max-width: 720px;
+		width: 100%;
+		padding: var(--spacing-10);
+		border-radius: var(--radius-lg);
+		background: linear-gradient(
+			135deg,
+			var(--color-brand),
+			color-mix(in srgb, var(--color-brand-hover) 60%, var(--color-brand))
+		);
+		color: var(--color-on-brand);
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+		text-align: center;
+		box-shadow: var(--shadow-lg);
+	}
+
+	.cta-card h2 {
+		margin: 0;
+		font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl));
+		letter-spacing: var(--tracking-tight);
+	}
+
+	.cta-card p {
+		margin: 0;
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
+	}
+
+	.cta-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-3);
+		justify-content: center;
+	}
+
+	.cta-card .btn-primary {
+		background: var(--color-on-brand);
+		color: var(--color-brand);
+	}
+
+	.cta-card .btn-primary:hover {
+		color: var(--color-brand-hover);
+	}
+
+	.cta-card .btn-ghost {
+		color: var(--color-on-brand);
+		border-color: color-mix(in srgb, var(--color-on-brand) 60%, transparent);
+	}
+
+	.cta-card .btn-ghost:hover {
+		background: color-mix(in srgb, var(--color-on-brand) 12%, transparent);
+	}
+
+	@media (max-width: 1080px) {
+		.product-page {
+			padding: var(--spacing-16) var(--spacing-5) var(--spacing-20);
+		}
+
+		.hero {
+			grid-template-columns: 1fr;
+			padding: var(--spacing-10);
+		}
+
+		.hero-image {
+			max-height: 420px;
+		}
+
+		.feature {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.kit {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 720px) {
+		.product-page {
+			padding: var(--spacing-12) var(--spacing-4) var(--spacing-16);
+			gap: var(--spacing-16);
+		}
+
+		.hero {
+			padding: var(--spacing-8);
+		}
+
+		.cta-card {
+			padding: var(--spacing-8);
+		}
+
+		.gallery {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.hero {
+			padding: var(--spacing-6);
+		}
+
+		.highlight-card,
+		.metric,
+		.feature,
+		.kit,
+		.spec {
+			padding: var(--spacing-4);
+		}
+
+		.cta-actions {
+			flex-direction: column;
+		}
+	}
+</style>
