@@ -13,6 +13,7 @@ import { resolveBlogSiteIdentity } from "../utils/site-identity";
 // Limit to what we render (1 featured + 6 grid). The DB does the slicing
 // instead of fetching every post and discarding the tail in JS.
 const POSTS_PER_PAGE = 7;
+// prod parity verified
 
 const [{ entries: posts, cacheHint }, settings] = await Promise.all([
 	getEmDashCollection("posts", {
